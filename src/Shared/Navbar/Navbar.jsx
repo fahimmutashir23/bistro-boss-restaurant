@@ -17,7 +17,7 @@ const Navbar = () => {
         </NavLink>
       </li>
       <li>
-        <NavLink to="/dashboard" className="rounded-lg">
+        <NavLink to="/dashboard/userHome" className="rounded-lg">
           Dashboard
         </NavLink>
       </li>

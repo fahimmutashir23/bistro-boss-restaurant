@@ -1,12 +1,12 @@
 
-const Dashboard = () => {
+const UserHome = () => {
     return (
         <div>
             <div className="">
-            Dashboard            
+            UserHome            
             </div>
         </div>
     );
 };
 
-export default Dashboard;
+export default UserHome;

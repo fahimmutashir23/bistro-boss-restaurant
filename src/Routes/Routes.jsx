@@ -5,12 +5,12 @@ import ErrorPage from "../Components/ErrorPage/ErrorPage";
 import Contact from "../Pages/Contact/Contact"
 import Menu from "../Pages/OurMenu/OurMenu"
 import Shop from "../Pages/Shop/Shop"
-import Dashboard from "../Pages/Dashboard/Dashboard"
 import Cart from "../Pages/Cart/Cart"
 import Login from "../Pages/Login/Login";
 import Registration from "../Pages/Registration/Registration";
 import DashboardLayout from "../Layout/DashboardLayout";
 import PrivetRoute from "../PrivetRoute/PrivetRoute";
+import UserHome from "../Pages/Dashboard/userHome";
 
 
 const Routes = createBrowserRouter([
@@ -50,8 +50,8 @@ const Routes = createBrowserRouter([
         element: <PrivetRoute><DashboardLayout></DashboardLayout></PrivetRoute>,
         children:[
             {
-                path: "/dashboard",
-                element: <Dashboard></Dashboard>
+                path: "/dashboard/userHome",
+                element: <UserHome></UserHome>
             },
             {
                 path: "/dashboard/cart",
