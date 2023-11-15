@@ -2,7 +2,9 @@
 const Dashboard = () => {
     return (
         <div>
+            <div className="">
             Dashboard            
+            </div>
         </div>
     );
 };

@@ -32,7 +32,7 @@ const Navbar = () => {
         </NavLink>
       </li>
       <li>
-        <NavLink to="/cart" className="rounded-lg">
+        <NavLink to="/dashboard/cart" className="rounded-lg">
           <BsCartCheckFill className="text-xl"></BsCartCheckFill>
         </NavLink>
       </li>

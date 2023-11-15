@@ -1,11 +1,39 @@
 import vectorImage from "../../assets/others/authentication2.png";
 import background from "../../assets/others/authentication.png";
-import { BsGoogle } from "react-icons/bs";
-import { FaFacebookF, FaGithub } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import SocialLogin from "../../Components/SocialLogin/SocialLogin";
+import useAuth from "../../Hooks/useAuth";
+import Swal from "sweetalert2";
+
 
 
 const Registration = () => {
+  const {signUp, logOut} = useAuth()
+  const navigate = useNavigate()
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        const name = e.target.name.value;
+        const email = e.target.email.value;
+        const password = e.target.password.value;
+        const user = {name, email, password};
+        console.log(user);
+        signUp(email, password)
+        .then(result => {
+
+          if(result.user){
+            Swal.fire({
+              title: "successfully Register",
+              text: "Please login",
+              icon: "success",
+              confirmButtonText: 'Cool'
+            })
+            logOut()
+            navigate("/login")
+          }
+        })
+    }
+
     return (
         <div>
       <div
@@ -13,7 +41,6 @@ const Registration = () => {
         className="hero min-h-screen"
       >
         <div
-          // style={{backgroundImage: `url(${background})`}}
           className="hero-content flex-col lg:flex-row-reverse my-10 shadow-2xl bg-transparent"
         >
           <div className="text-center lg:text-left">
@@ -23,7 +50,7 @@ const Registration = () => {
           <div className="card w-full max-w-sm">
             <h1 className="text-3xl font-bold text-center">Sign Up now!</h1>
 
-            <form className="card-body">
+            <form onSubmit={handleSubmit} className="card-body">
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Name</span>
@@ -31,6 +58,7 @@ const Registration = () => {
                 <input
                   type="name"
                   placeholder="name"
+                  name="name"
                   className="input input-bordered rounded-md"
                   required
                 />
@@ -42,6 +70,7 @@ const Registration = () => {
                 <input
                   type="email"
                   placeholder="email"
+                  name="email"
                   className="input input-bordered rounded-md"
                   required
                 />
@@ -53,14 +82,10 @@ const Registration = () => {
                 <input
                   type="password"
                   placeholder="password"
+                  name="password"
                   className="input input-bordered rounded-md"
                   required
                 />
-                <label className="label">
-                  <a href="#" className="label-text-alt link link-hover">
-                    Forgot password?
-                  </a>
-                </label>
               </div>
               <div className="form-control mt-6">
                 <button type="submit" className="btn btn-primary rounded-md">
@@ -74,17 +99,7 @@ const Registration = () => {
               <p className="font-semibold text-center text-sm">
                 or Sign Up with
               </p>
-              <div className="flex gap-3 mx-auto">
-                <div className="border border-black p-2 rounded-full max-w-fit">
-                  <BsGoogle className="text-gray-700 text-xs"></BsGoogle>
-                </div>
-                <div className="border border-black p-2 rounded-full max-w-fit">
-                  <FaFacebookF className="text-gray-700 text-xs"></FaFacebookF>
-                </div>
-                <div className="border border-black p-2 rounded-full max-w-fit">
-                  <FaGithub className="text-gray-700 text-xs"></FaGithub>
-                </div>
-              </div>
+             <SocialLogin></SocialLogin>
             </form>
           </div>
         </div>

@@ -9,6 +9,8 @@ import Dashboard from "../Pages/Dashboard/Dashboard"
 import Cart from "../Pages/Cart/Cart"
 import Login from "../Pages/Login/Login";
 import Registration from "../Pages/Registration/Registration";
+import DashboardLayout from "../Layout/DashboardLayout";
+import PrivetRoute from "../PrivetRoute/PrivetRoute";
 
 
 const Routes = createBrowserRouter([
@@ -33,14 +35,6 @@ const Routes = createBrowserRouter([
                 path: "/shop",
                 element: <Shop></Shop>
             },
-            {
-                path: "/dashboard",
-                element: <Dashboard></Dashboard>
-            },
-            {
-                path: "/cart",
-                element: <Cart></Cart>
-            },
         ]
     },
     {
@@ -51,6 +45,20 @@ const Routes = createBrowserRouter([
         path: "/registration",
         element: <Registration></Registration>
     },
+    {
+        path: "/dashboard",
+        element: <PrivetRoute><DashboardLayout></DashboardLayout></PrivetRoute>,
+        children:[
+            {
+                path: "/dashboard",
+                element: <Dashboard></Dashboard>
+            },
+            {
+                path: "/dashboard/cart",
+                element: <Cart></Cart>
+            },
+        ]
+    }
 ])
 
 export default Routes;
