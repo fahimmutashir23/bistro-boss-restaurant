@@ -11,6 +11,7 @@ import Registration from "../Pages/Registration/Registration";
 import DashboardLayout from "../Layout/DashboardLayout";
 import PrivetRoute from "../PrivetRoute/PrivetRoute";
 import UserHome from "../Pages/Dashboard/userHome";
+import Payment from "../Pages/Dashboard/Payment/Payment";
 
 
 const Routes = createBrowserRouter([
@@ -56,6 +57,10 @@ const Routes = createBrowserRouter([
             {
                 path: "/dashboard/cart",
                 element: <Cart></Cart>
+            },
+            {
+                path: "/dashboard/payment",
+                element: <Payment></Payment>
             },
         ]
     }

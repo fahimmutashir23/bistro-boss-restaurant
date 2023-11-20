@@ -1,9 +1,11 @@
 import { Link, NavLink } from "react-router-dom";
 import { BsCartCheckFill } from "react-icons/bs";
-import logo from "../../assets/logo.png"
-
+import logo from "../../assets/logo.png";
+import useAuth from "../../Hooks/useAuth";
 
 const Navbar = () => {
+  const { user, logOut } = useAuth();
+
   const navItem = (
     <>
       <li>
@@ -16,11 +18,13 @@ const Navbar = () => {
           Contact Us
         </NavLink>
       </li>
-      <li>
-        <NavLink to="/dashboard/userHome" className="rounded-lg">
-          Dashboard
-        </NavLink>
-      </li>
+      {user && (
+        <li>
+          <NavLink to="/dashboard/userHome" className="rounded-lg">
+            Dashboard
+          </NavLink>
+        </li>
+      )}
       <li>
         <NavLink to="/menu" className="rounded-lg">
           Our Menu
@@ -66,13 +70,44 @@ const Navbar = () => {
               {navItem}
             </ul>
           </div>
-          <img src={logo} alt="" className="w-16"/>
+          <img src={logo} alt="" className="w-16" />
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{navItem}</ul>
         </div>
         <div className="navbar-end">
-          <Link to="/login" className="btn rounded-lg btn-accent">Login</Link>
+          {user ? (
+            <div className="dropdown dropdown-end">
+              <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                <div className="w-10 rounded-full">
+                  <img alt="User image" src={user?.photoURL} />
+                </div>
+              </label>
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-black bg-opacity-70 text-white rounded-box"
+              >
+                <li className="hover:bg-base-200">
+                  <Link className="justify-between">
+                    {user?.displayName}
+                    <span className="badge">New</span>
+                  </Link>
+                </li>
+                <li className="hover:bg-base-200">
+                  <a>Settings</a>
+                </li>
+                <li className="hover:bg-base-200">
+                  <button onClick={() => logOut()} className="">
+                    LogOut
+                  </button>
+                </li>
+              </ul>
+            </div>
+          ) : (
+            <Link to="/login" className="btn btn-primary rounded-md">
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </div>

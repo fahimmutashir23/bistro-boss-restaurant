@@ -29,7 +29,7 @@ const Login = () => {
           confirmButtonText: "Cool",
         });
         navigate("/");
-        e.reset();
+        e.target.reset();
       }
     });
   };

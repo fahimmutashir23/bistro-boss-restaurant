@@ -4,45 +4,66 @@ import { Link, useNavigate } from "react-router-dom";
 import SocialLogin from "../../Components/SocialLogin/SocialLogin";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
+import { useState } from "react";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
-
+const imgHostingData = `https://api.imgbb.com/1/upload?key=${
+  import.meta.env.VITE_IMG_API_KEY
+}`;
 
 const Registration = () => {
-  const {signUp, logOut} = useAuth()
-  const navigate = useNavigate()
+  const { signUp, logOut, updateUser } = useAuth();
+  const navigate = useNavigate();
+  const [profile, setProfile] = useState(null);
+  const axiosPublic = useAxiosPublic();
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        const name = e.target.name.value;
-        const email = e.target.email.value;
-        const password = e.target.password.value;
-        const user = {name, email, password};
-        console.log(user);
-        signUp(email, password)
-        .then(result => {
 
-          if(result.user){
-            Swal.fire({
-              title: "successfully Register",
-              text: "Please login",
-              icon: "success",
-              confirmButtonText: 'Cool'
-            })
-            logOut()
-            navigate("/login")
-          }
-        })
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const image = e.target.image.files[0];
+    const imageFile = { image: image };
+
+    const res = await axiosPublic.post(imgHostingData, imageFile, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    });
+    console.log(res.data);
+    if (res.data.success) {
+      setProfile(res.data.data.display_url);
     }
 
-    return (
-        <div>
+    signUp(email, password).then((result) => {
+      if (result.user) {
+        Swal.fire({
+          title: "successfully Register",
+          text: "Please login",
+          icon: "success",
+          confirmButtonText: "Cool",
+        });
+        const user = { name, email, password, profile };
+        axiosPublic.post("/users", user).then((res) => console.log(res.data));
+
+        updateUser({
+          displayName: name,
+          photoURL: profile,
+        });
+        logOut();
+        navigate("/login");
+      }
+    });
+  };
+
+  return (
+    <div>
       <div
         style={{ backgroundImage: `url(${background})` }}
         className="hero min-h-screen"
       >
-        <div
-          className="hero-content flex-col lg:flex-row-reverse my-10 shadow-2xl bg-transparent"
-        >
+        <div className="hero-content flex-col lg:flex-row-reverse my-10 shadow-2xl bg-transparent">
           <div className="text-center lg:text-left">
             <img src={vectorImage} alt="" />
           </div>
@@ -77,6 +98,17 @@ const Registration = () => {
               </div>
               <div className="form-control">
                 <label className="label">
+                  <span className="label-text">Profile Photo</span>
+                </label>
+                <input
+                  type="file"
+                  name="image"
+                  className="input input-bordered rounded-md"
+                  required
+                />
+              </div>
+              <div className="form-control">
+                <label className="label">
                   <span className="label-text">Password</span>
                 </label>
                 <input
@@ -94,18 +126,20 @@ const Registration = () => {
               </div>
               <p className="text-orange-500 text-sm text-center mt-4">
                 Already Registered?
-                <Link to="/login" className="font-semibold">Go to Login</Link>
+                <Link to="/login" className="font-semibold">
+                  Go to Login
+                </Link>
               </p>
               <p className="font-semibold text-center text-sm">
                 or Sign Up with
               </p>
-             <SocialLogin></SocialLogin>
+              <SocialLogin></SocialLogin>
             </form>
           </div>
         </div>
       </div>
     </div>
-    );
+  );
 };
 
 export default Registration;

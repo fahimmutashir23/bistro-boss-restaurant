@@ -25,14 +25,14 @@ const Sidebar = () => {
         </button>
       </div>
 
-      <div className={`w-[280px] bg-orange-500 min-h-screen ${open && "-translate-x-72"} transition duration-1000 md:block pt-8`}>
+      <div className={`w-[280px] bg-orange-500 min-h-screen ${open && "-translate-x-72"} ${open && "md:translate-x-0"} transition duration-1000 md:block pt-8`}>
         <div className="mb-8">
           <h1 className="font-bold text-2xl text-center">BISTRO BOSS</h1>
           <h1 className="font-semibold text-xl text-center uppercase">
             restaurant
           </h1>
         </div>
-        <div className="flex flex-col">
+        <div className="">
           <div>
             <ul className=" space-y-2 menu">
               <li>
@@ -53,7 +53,7 @@ const Sidebar = () => {
               </li>
               <li>
                 <NavLink
-                  to="payment"
+                  to="paymentHistory"
                   className="flex items-center gap-3 text-lg font-medium uppercase"
                 >
                   <FaDollarSign></FaDollarSign> payment history
@@ -87,7 +87,7 @@ const Sidebar = () => {
             <hr className="my-4" />
           </div>
 
-          <div className="">
+          <div className="flex items-end min-h-[40vh]">
             <ul className="menu">
               <li>
                 <Link
